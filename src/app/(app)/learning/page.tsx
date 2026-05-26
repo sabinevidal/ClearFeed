@@ -1,15 +1,42 @@
-export default function LearningPage() {
-  return (
-    <div>
-      <h1 className="text-2xl font-bold text-brand-dark mb-2">Learning Mode</h1>
-      <p className="text-brand-body mb-6">
-        Watch videos with educational annotations that highlight manipulation
-        patterns in real time.
-      </p>
+import { prisma } from '@/lib/db';
+import { LearningModePage } from '@/components/learning/LearningModePage';
 
-      <p className="text-brand-muted">
-        Learning mode player coming in Phase 5.
-      </p>
-    </div>
-  );
+export const dynamic = 'force-dynamic';
+
+interface LearningPageProps {
+  searchParams: { video?: string };
+}
+
+export default async function LearningPage({ searchParams }: LearningPageProps) {
+  const videoId = searchParams.video;
+
+  // If a specific video is requested, load it with patterns
+  let video = null;
+  if (videoId) {
+    video = await prisma.video.findUnique({
+      where: { id: videoId },
+      include: {
+        patterns: {
+          include: { pattern: true },
+        },
+      },
+    });
+  }
+
+  // Also load recent analyzed videos for the picker
+  const recentVideos = await prisma.video.findMany({
+    where: {
+      analyzedAt: { not: null },
+      riskScore: { gte: 3 },
+    },
+    include: {
+      patterns: {
+        include: { pattern: true },
+      },
+    },
+    orderBy: { analyzedAt: 'desc' },
+    take: 10,
+  });
+
+  return <LearningModePage video={video} recentVideos={recentVideos} />;
 }

@@ -1,16 +1,29 @@
-export default function AnalyzePage() {
-  return (
-    <div>
-      <h1 className="text-2xl font-bold text-brand-dark mb-2">
-        Analyze Video
-      </h1>
-      <p className="text-brand-body mb-6">
-        Submit a video URL for AI-powered manipulation pattern analysis.
-      </p>
+import { prisma } from '@/lib/db';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { AnalyzeVideoPage } from '@/components/analyze/AnalyzeVideoPage';
 
-      <p className="text-brand-muted">
-        Video analysis coming in Phase 4.
-      </p>
-    </div>
+export const dynamic = 'force-dynamic';
+
+export default async function AnalyzePage() {
+  const session = await getServerSession(authOptions);
+
+  // Get pending videos for the current user (or all for parents)
+  const where =
+    session?.user?.role === 'PARENT'
+      ? { status: 'PENDING' as const }
+      : { submittedById: session?.user?.id, status: 'PENDING' as const };
+
+  const pendingVideos = await prisma.video.findMany({
+    where,
+    orderBy: { createdAt: 'desc' },
+    take: 10,
+  });
+
+  return (
+    <AnalyzeVideoPage
+      pendingVideos={pendingVideos}
+      userRole={session?.user?.role}
+    />
   );
 }
