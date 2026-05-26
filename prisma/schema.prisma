@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PARENT
+  CHILD
+}
+
+enum VideoStatus {
+  PENDING
+  APPROVED
+  BLOCKED
+}
+
+enum ReviewActionType {
+  APPROVE
+  BLOCK
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String
+  passwordHash   String
+  role           Role
+  avatarUrl      String?
+  parentId       String?
+  parent         User?     @relation("ParentChild", fields: [parentId], references: [id])
+  children       User[]    @relation("ParentChild")
+  childProfile   ChildProfile?
+  submittedVideos Video[]  @relation("SubmittedBy")
+  reviewActions  ReviewAction[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model ChildProfile {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age              Int
+  contentThreshold Int      @default(5) // 1-10 scale
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Video {
+  id            String      @id @default(cuid())
+  title         String
+  youtubeUrl    String
+  youtubeId     String
+  thumbnailUrl  String
+  duration      String?
+  category      String?
+  riskScore     Int?        // 1-10 scale
+  status        VideoStatus @default(PENDING)
+  submittedById String
+  submittedBy   User        @relation("SubmittedBy", fields: [submittedById], references: [id])
+  patterns      VideoPattern[]
+  reviewActions ReviewAction[]
+  analyzedAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Pattern {
+  id                    String   @id @default(cuid())
+  name                  String   @unique
+  description           String
+  howToSpot             String
+  icon                  String
+  psychologyExplanation String?
+  examples              String[] // Array of example descriptions
+  videoPatterns         VideoPattern[]
+  createdAt             DateTime @default(now())
+}
+
+model VideoPattern {
+  id          String  @id @default(cuid())
+  videoId     String
+  video       Video   @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  patternId   String
+  pattern     Pattern @relation(fields: [patternId], references: [id])
+  timestamp   String? // e.g. "3:42"
+  description String? // Specific instance description
+  createdAt   DateTime @default(now())
+
+  @@unique([videoId, patternId])
+}
+
+model ReviewAction {
+  id        String           @id @default(cuid())
+  videoId   String
+  video     Video            @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  parentId  String
+  parent    User             @relation(fields: [parentId], references: [id])
+  action    ReviewActionType
+  rationale String?
+  decidedAt DateTime         @default(now())
+}
