@@ -72,11 +72,17 @@ model Video {
 model Pattern {
   id                    String   @id @default(cuid())
   name                  String   @unique
+  category              String   // e.g. "Attention Capture", "Emotional Manipulation"
+  riskScore             Int      // 1-10 scale
   description           String
-  howToSpot             String
+  whyItWorks            String   // Psychology explanation of the mechanism
+  howToSpot             String   // Detection tip for kids
   icon                  String
-  psychologyExplanation String?
-  examples              String[] // Array of example descriptions
+  psychologyExplanation String?  // Deprecated: use whyItWorks
+  ageExplanation10      String?  // Explanation for ages 10-12
+  ageExplanation14      String?  // Explanation for ages 14-16
+  detectionSignals      String[] // Technical signals for AI detection
+  examples              String[] // Array of example contexts
   videoPatterns         VideoPattern[]
   createdAt             DateTime @default(now())
 }
