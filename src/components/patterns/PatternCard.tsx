@@ -6,6 +6,18 @@ interface PatternCardProps {
   onSelect: () => void;
 }
 
+function getRiskColor(score: number) {
+  if (score <= 4) return 'bg-status-safe text-white';
+  if (score <= 7) return 'bg-amber-500 text-white';
+  return 'bg-red-500 text-white';
+}
+
+function getRiskLabel(score: number) {
+  if (score <= 4) return 'Low';
+  if (score <= 7) return 'Medium';
+  return 'High';
+}
+
 export function PatternCard({ pattern, isSelected, onSelect }: PatternCardProps) {
   return (
     <button
@@ -17,18 +29,24 @@ export function PatternCard({ pattern, isSelected, onSelect }: PatternCardProps)
       }`}
     >
       <div className="flex gap-4">
-        <div className="w-16 h-16 rounded-xl bg-cream-100 flex items-center justify-center shrink-0">
-          <i className={`fas ${pattern.icon} text-2xl text-accent-gold`} />
+        <div className="w-14 h-14 rounded-xl bg-cream-100 flex items-center justify-center shrink-0">
+          <i className={`fas ${pattern.icon} text-xl text-accent-gold`} />
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-brand-dark mb-1">{pattern.name}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="font-bold text-brand-dark">{pattern.name}</h3>
+            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${getRiskColor(pattern.riskScore)}`}>
+              {getRiskLabel(pattern.riskScore)} ({pattern.riskScore})
+            </span>
+          </div>
+          <p className="text-xs text-brand-muted mb-1.5">{pattern.category}</p>
           <p className="text-sm text-brand-body leading-relaxed line-clamp-2">
             {pattern.description}
           </p>
-          <div className="flex items-center gap-1.5 mt-3">
+          <div className="flex items-center gap-1.5 mt-2.5">
             <i className="fas fa-lightbulb text-accent-gold text-[10px]" />
-            <p className="text-xs text-brand-muted">
-              <span className="font-medium">How to Spot It:</span>{' '}
+            <p className="text-xs text-brand-muted line-clamp-1">
+              <span className="font-medium">Spot it:</span>{' '}
               {pattern.howToSpot}
             </p>
           </div>

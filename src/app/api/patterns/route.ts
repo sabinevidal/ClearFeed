@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const patterns = await prisma.pattern.findMany({
-    orderBy: { name: 'asc' },
+    orderBy: [{ category: 'asc' }, { riskScore: 'asc' }],
   });
 
   return NextResponse.json(patterns);

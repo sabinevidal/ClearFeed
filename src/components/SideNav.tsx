@@ -26,7 +26,7 @@ export function SideNav() {
     session?.user?.role === 'PARENT' ? parentNavItems : childNavItems;
 
   return (
-    <nav className="w-[200px] min-h-[calc(100vh-60px)] bg-brand-dark flex flex-col justify-between py-6">
+    <nav className="w-[200px] min-h-[calc(100vh-60px)] bg-brand-dark/95 backdrop-blur-sm flex flex-col justify-between py-6">
       <ul className="flex flex-col gap-1 px-3">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -34,10 +34,10 @@ export function SideNav() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-bubble text-sm transition-all ${
                   isActive
-                    ? 'bg-[#2a2a2a] text-cream-100'
-                    : 'text-cream-300 hover:text-cream-100 hover:bg-[#2a2a2a]'
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <i className={`fas ${item.icon} w-5 text-center`} />
@@ -51,7 +51,7 @@ export function SideNav() {
       <div className="px-3">
         <button
           onClick={() => signOut({ callbackUrl: '/login' })}
-          className="flex items-center gap-3 px-4 py-3 text-sm text-cream-300 hover:text-cream-100 transition-colors"
+          className="flex items-center gap-3 px-4 py-3 text-sm text-white/60 hover:text-white transition-colors"
         >
           <i className="fas fa-sign-out-alt w-5 text-center" />
           <span>Logout</span>

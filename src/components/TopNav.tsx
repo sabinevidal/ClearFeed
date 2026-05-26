@@ -7,26 +7,31 @@ export function TopNav() {
   const { data: session } = useSession();
 
   return (
-    <header className="flex items-center justify-between h-[60px] px-6 border-b border-brand-border bg-cream-100">
+    <header className="flex items-center justify-between py-header-y px-header-x border-b border-subtle bg-cream-50/80 backdrop-blur-sm">
       <Link href="/" className="flex items-center gap-2">
-        <i className="fas fa-play-circle text-brand-dark text-xl" />
-        <span className="text-xl font-bold text-brand-dark">ClearFeed</span>
+        {/* Shield icon — amber fill at 15% opacity with amber stroke */}
+        <div className="w-[26px] h-[26px] flex items-center justify-center">
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"
+              fill="rgba(232,168,48,0.15)"
+              stroke="#E8A830"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <span className="text-product-name text-brand-dark">ClearView</span>
       </Link>
 
       <div className="flex items-center gap-4">
-        <button className="text-brand-dark hover:text-brand-body" aria-label="Search">
-          <i className="fas fa-search text-lg" />
-        </button>
-        <button className="text-brand-dark hover:text-brand-body" aria-label="Notifications">
-          <i className="fas fa-bell text-lg" />
-        </button>
-        <button className="text-brand-dark hover:text-brand-body" aria-label="Safety">
-          <i className="fas fa-shield-alt text-lg" />
-        </button>
-        <button className="text-brand-dark hover:text-brand-body" aria-label="Add content">
-          <i className="fas fa-plus-circle text-lg" />
-        </button>
-
         {session?.user && (
           <div className="flex items-center gap-2 ml-2">
             <div className="w-9 h-9 rounded-full bg-brand-dark flex items-center justify-center text-cream-100 text-sm font-bold">
@@ -34,7 +39,7 @@ export function TopNav() {
             </div>
             <button
               onClick={() => signOut()}
-              className="text-sm text-brand-dark hover:text-brand-body"
+              className="text-sm text-brand-dark hover:text-brand-body transition-colors"
             >
               {session.user.name}
             </button>

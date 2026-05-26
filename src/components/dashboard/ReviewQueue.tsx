@@ -30,9 +30,9 @@ export function ReviewQueue({ videos }: ReviewQueueProps) {
 
   if (localVideos.length === 0) {
     return (
-      <div className="bg-white rounded-card p-8 border border-brand-border text-center">
+      <div className="warm-card p-8 text-center">
         <i className="fas fa-check-circle text-status-safe text-3xl mb-3" />
-        <p className="text-sm text-brand-body">
+        <p className="text-bubble-desc text-brand-body">
           All caught up! No videos waiting for review.
         </p>
       </div>
@@ -40,7 +40,7 @@ export function ReviewQueue({ videos }: ReviewQueueProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-bubble-gap">
       {localVideos.map((video) => (
         <ReviewQueueItem
           key={video.id}
@@ -68,14 +68,14 @@ function ReviewQueueItem({
 
   const riskColor =
     (video.riskScore ?? 0) <= 4
-      ? 'text-accent-gold'
-      : 'text-status-warning';
+      ? 'text-category-attention'
+      : 'text-category-emotional';
 
   return (
-    <div className="bg-white rounded-card p-5 border border-brand-border">
+    <div className="warm-card p-5">
       <div className="flex items-start gap-4">
         {/* Thumbnail */}
-        <div className="w-28 h-20 rounded-lg bg-cream-100 overflow-hidden shrink-0">
+        <div className="w-28 h-20 rounded-bubble bg-cream-100 overflow-hidden shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={video.thumbnailUrl}
@@ -87,15 +87,15 @@ function ReviewQueueItem({
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-sm font-bold text-brand-dark truncate">
+            <h3 className="text-sm font-semibold text-brand-dark truncate">
               {video.title}
             </h3>
-            <span className={`text-xs font-bold ${riskColor} shrink-0`}>
+            <span className={`text-video-meta font-semibold ${riskColor} shrink-0`}>
               {video.riskScore}/10
             </span>
           </div>
 
-          <p className="text-xs text-brand-muted mb-2">
+          <p className="text-video-meta text-brand-muted mb-2">
             Submitted by {video.submittedBy.name}
           </p>
 
@@ -105,7 +105,7 @@ function ReviewQueueItem({
               {video.patterns.map((vp) => (
                 <span
                   key={vp.id}
-                  className="text-[10px] bg-cream-100 text-brand-body px-2 py-0.5 rounded-full"
+                  className="category-pill bg-cream-100/80 text-brand-body"
                 >
                   {vp.pattern.name}
                 </span>
@@ -115,7 +115,7 @@ function ReviewQueueItem({
 
           {/* AI rationale */}
           {video.patterns.length > 0 && (
-            <p className="text-xs text-brand-body leading-relaxed line-clamp-2">
+            <p className="text-bubble-detail text-brand-body leading-relaxed line-clamp-2">
               {video.patterns[0].description}
             </p>
           )}
@@ -125,21 +125,21 @@ function ReviewQueueItem({
         <div className="flex flex-col gap-2 shrink-0">
           <a
             href={`/analyze?video=${video.id}`}
-            className="px-3 py-1.5 border border-brand-border text-xs text-brand-body rounded-lg hover:bg-cream-50 transition-colors text-center"
+            className="px-3 py-1.5 border border-white/50 text-video-meta text-brand-body rounded-pill hover:bg-cream-100/60 transition-colors text-center"
           >
             Review
           </a>
           <button
             onClick={() => handleAction('APPROVE')}
             disabled={loading}
-            className="px-3 py-1.5 bg-status-safe text-white text-xs rounded-lg font-bold hover:bg-status-safe/90 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 bg-status-safe text-white text-video-meta rounded-pill font-semibold hover:bg-status-safe/90 transition-colors disabled:opacity-50"
           >
             Approve
           </button>
           <button
             onClick={() => handleAction('BLOCK')}
             disabled={loading}
-            className="px-3 py-1.5 bg-status-warning text-white text-xs rounded-lg font-bold hover:bg-status-warning/90 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 bg-category-emotional text-white text-video-meta rounded-pill font-semibold hover:bg-category-emotional/90 transition-colors disabled:opacity-50"
           >
             Block
           </button>

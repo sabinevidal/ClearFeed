@@ -9,7 +9,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <TopNav />
       <div className="flex flex-1">
         <SideNav />
-        <main className="flex-1 p-8 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-content-x pt-content-top pb-content-bottom overflow-y-auto">
+          {children}
+        </main>
       </div>
     </div>
   );

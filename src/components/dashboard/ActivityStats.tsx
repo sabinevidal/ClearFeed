@@ -13,40 +13,51 @@ export function ActivityStats({ stats }: ActivityStatsProps) {
       label: 'Total Videos',
       value: stats.totalVideos,
       icon: 'fa-film',
-      color: 'text-brand-dark',
+      color: '#1a1a1a',
     },
     {
       label: 'Approved',
       value: stats.approvedVideos,
       icon: 'fa-check-circle',
-      color: 'text-status-safe',
+      color: '#2e7d32',
     },
     {
       label: 'Blocked',
       value: stats.blockedVideos,
       icon: 'fa-ban',
-      color: 'text-status-warning',
+      color: '#E86B4A',
     },
     {
       label: 'Patterns Found',
       value: stats.patternsIdentified,
       icon: 'fa-exclamation-triangle',
-      color: 'text-accent-gold',
+      color: '#E8A830',
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-col-gap mb-8">
       {items.map((item) => (
         <div
           key={item.label}
-          className="bg-white rounded-card p-4 border border-brand-border"
+          className="warm-card p-4 relative overflow-hidden"
         >
+          {/* Subtle gradient blob */}
+          <div
+            className="gradient-blob -z-10 -top-8 -right-8 opacity-15"
+            style={{
+              background: `radial-gradient(circle, ${item.color}88 0%, ${item.color}44 40%, transparent 70%)`,
+              width: '100px',
+              height: '100px',
+            }}
+          />
           <div className="flex items-center gap-2 mb-2">
-            <i className={`fas ${item.icon} ${item.color} text-sm`} />
-            <span className="text-xs text-brand-muted">{item.label}</span>
+            <i className={`fas ${item.icon} text-sm`} style={{ color: item.color }} />
+            <span className="text-video-meta text-brand-muted">{item.label}</span>
           </div>
-          <p className={`text-2xl font-bold ${item.color}`}>{item.value}</p>
+          <p className="text-2xl font-bold" style={{ color: item.color }}>
+            {item.value}
+          </p>
         </div>
       ))}
     </div>

@@ -39,11 +39,11 @@ export function ParentDashboard({
   recentActions,
 }: ParentDashboardProps) {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-brand-dark mb-1">
+    <div className="p-6">
+      <h1 className="text-product-name text-brand-dark mb-1">
         Parent Dashboard
       </h1>
-      <p className="text-sm text-brand-body mb-6">
+      <p className="text-bubble-desc text-brand-body mb-6">
         Manage your children&apos;s content thresholds and review flagged
         videos.
       </p>
@@ -53,13 +53,13 @@ export function ParentDashboard({
 
       {/* Child profiles */}
       <section className="mb-8">
-        <h2 className="text-lg font-bold text-brand-dark mb-4">
+        <h2 className="text-video-title text-brand-dark mb-4">
           Child Profiles
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-col-gap">
           {children.length === 0 ? (
-            <div className="bg-white rounded-card p-6 border border-brand-border col-span-2 text-center">
-              <p className="text-sm text-brand-muted">
+            <div className="warm-card p-6 col-span-2 text-center">
+              <p className="text-bubble-desc text-brand-muted">
                 No child profiles yet. Add a child account to get started.
               </p>
             </div>
@@ -74,7 +74,7 @@ export function ParentDashboard({
       {/* Review queue */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-brand-dark">
+          <h2 className="text-video-title text-brand-dark">
             Review Queue
             {reviewQueue.length > 0 && (
               <span className="ml-2 text-sm font-normal text-brand-muted">
@@ -84,7 +84,7 @@ export function ParentDashboard({
           </h2>
           <a
             href="/patterns"
-            className="text-sm text-brand-body hover:text-brand-dark transition-colors"
+            className="text-bubble-desc text-brand-body hover:text-brand-dark transition-colors"
           >
             View Full Library →
           </a>
@@ -94,7 +94,7 @@ export function ParentDashboard({
 
       {/* Recent actions */}
       <section>
-        <h2 className="text-lg font-bold text-brand-dark mb-4">
+        <h2 className="text-video-title text-brand-dark mb-4">
           Recent Decisions
         </h2>
         <RecentActions actions={recentActions} />

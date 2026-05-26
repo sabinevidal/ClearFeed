@@ -36,14 +36,14 @@ export function ChildProfileCard({ child }: ChildProfileCardProps) {
   }
 
   return (
-    <div className="bg-white rounded-card p-5 border border-brand-border">
+    <div className="warm-card p-5">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-full bg-brand-dark flex items-center justify-center text-cream-100 font-bold">
+        <div className="w-10 h-10 rounded-full bg-brand-dark flex items-center justify-center text-white font-bold">
           {child.name.charAt(0)}
         </div>
         <div>
-          <h3 className="font-bold text-brand-dark">{child.name}</h3>
-          <p className="text-xs text-brand-muted">
+          <h3 className="font-semibold text-brand-dark">{child.name}</h3>
+          <p className="text-video-meta text-brand-muted">
             Age: {profile?.age ?? '—'}
           </p>
         </div>
@@ -52,10 +52,10 @@ export function ChildProfileCard({ child }: ChildProfileCardProps) {
       {/* Threshold slider */}
       <div className="mb-3">
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-medium text-brand-body">
+          <label className="text-video-meta font-medium text-brand-body">
             Content Threshold
           </label>
-          <span className="text-xs text-brand-muted">
+          <span className="text-video-meta text-brand-muted">
             {threshold}/10
             {saving && ' • Saving...'}
             {saved && ' • Saved ✓'}
@@ -67,15 +67,15 @@ export function ChildProfileCard({ child }: ChildProfileCardProps) {
           max={10}
           value={threshold}
           onChange={(e) => handleThresholdChange(Number(e.target.value))}
-          className="w-full h-2 bg-cream-200 rounded-full appearance-none cursor-pointer accent-accent-gold"
+          className="w-full h-2 bg-cream-200 rounded-full appearance-none cursor-pointer accent-category-attention"
         />
         <div className="flex justify-between mt-1">
           <span className="text-[10px] text-status-safe">Strict</span>
-          <span className="text-[10px] text-status-warning">Permissive</span>
+          <span className="text-[10px] text-category-emotional">Permissive</span>
         </div>
       </div>
 
-      <p className="text-[11px] text-brand-muted leading-relaxed">
+      <p className="text-bubble-detail text-brand-muted leading-relaxed">
         Videos with a risk score above {threshold} will require your approval
         before appearing in {child.name}&apos;s library.
       </p>

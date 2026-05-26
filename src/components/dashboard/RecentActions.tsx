@@ -9,8 +9,8 @@ interface RecentActionsProps {
 export function RecentActions({ actions }: RecentActionsProps) {
   if (actions.length === 0) {
     return (
-      <div className="bg-white rounded-card p-6 border border-brand-border text-center">
-        <p className="text-sm text-brand-muted">
+      <div className="warm-card p-6 text-center">
+        <p className="text-bubble-desc text-brand-muted">
           No review decisions yet. Videos will appear here once you approve or
           block them.
         </p>
@@ -19,15 +19,15 @@ export function RecentActions({ actions }: RecentActionsProps) {
   }
 
   return (
-    <div className="bg-white rounded-card border border-brand-border overflow-hidden">
-      <div className="divide-y divide-brand-border">
+    <div className="warm-card overflow-hidden">
+      <div className="divide-y divide-white/30">
         {actions.map((action) => (
           <div key={action.id} className="flex items-center gap-4 p-4">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
                 action.action === 'APPROVE'
-                  ? 'bg-status-safe-light'
-                  : 'bg-status-warning-light'
+                  ? 'bg-status-safe/10'
+                  : 'bg-category-emotional/10'
               }`}
             >
               <i
@@ -36,7 +36,7 @@ export function RecentActions({ actions }: RecentActionsProps) {
                 } text-xs ${
                   action.action === 'APPROVE'
                     ? 'text-status-safe'
-                    : 'text-status-warning'
+                    : 'text-category-emotional'
                 }`}
               />
             </div>
@@ -44,16 +44,16 @@ export function RecentActions({ actions }: RecentActionsProps) {
               <p className="text-sm text-brand-dark truncate">
                 {action.video.title}
               </p>
-              <p className="text-xs text-brand-muted">
+              <p className="text-video-meta text-brand-muted">
                 {action.action === 'APPROVE' ? 'Approved' : 'Blocked'} •{' '}
                 {new Date(action.decidedAt).toLocaleDateString()}
               </p>
             </div>
             <span
-              className={`text-xs font-bold ${
+              className={`text-video-meta font-semibold ${
                 action.action === 'APPROVE'
                   ? 'text-status-safe'
-                  : 'text-status-warning'
+                  : 'text-category-emotional'
               }`}
             >
               {action.action === 'APPROVE' ? 'Approved' : 'Blocked'}

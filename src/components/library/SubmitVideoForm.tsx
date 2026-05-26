@@ -45,7 +45,7 @@ export function SubmitVideoForm({ onVideoAdded }: SubmitVideoFormProps) {
   }
 
   return (
-    <div className="bg-white rounded-card p-5 mb-6">
+    <div className="warm-card p-5 mb-6">
       <form onSubmit={handleSubmit} className="flex items-center gap-3">
         <i className="fas fa-link text-brand-muted" />
         <input
@@ -57,25 +57,25 @@ export function SubmitVideoForm({ onVideoAdded }: SubmitVideoFormProps) {
             setError('');
             setSuccess('');
           }}
-          className="flex-1 px-4 py-3 rounded-lg border border-cream-300 bg-cream-50 text-sm focus:outline-none focus:ring-2 focus:ring-accent-gold"
+          className="flex-1 px-4 py-3 rounded-bubble bg-cream-100/60 border border-white/50 text-sm text-brand-dark placeholder:text-brand-muted focus:outline-none focus:ring-2 focus:ring-category-attention/30"
         />
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="px-6 py-3 bg-brand-dark text-cream-100 rounded-lg text-sm font-bold hover:bg-[#2a2a2a] transition-colors disabled:opacity-50"
+          className="px-6 py-3 bg-brand-dark text-white rounded-pill text-sm font-semibold hover:bg-brand-body transition-colors disabled:opacity-50"
         >
           {loading ? 'Checking...' : 'Check Video'}
         </button>
       </form>
 
       {error && (
-        <p className="text-xs text-status-warning mt-2 ml-8">{error}</p>
+        <p className="text-video-meta text-category-emotional mt-2 ml-8">{error}</p>
       )}
       {success && (
-        <p className="text-xs text-status-safe mt-2 ml-8">{success}</p>
+        <p className="text-video-meta text-status-safe mt-2 ml-8">{success}</p>
       )}
 
-      <p className="text-xs text-brand-muted mt-3 ml-8">
+      <p className="text-bubble-detail text-brand-muted mt-3 ml-8">
         Our system checks videos for manipulation patterns before adding them to
         your library. If the video needs a parent&apos;s OK, we&apos;ll send a
         request for you!

@@ -41,7 +41,6 @@ export function AnalyzeVideoPage({
     setAnalysisResult(null);
 
     try {
-      // First submit the video
       const submitRes = await fetch('/api/videos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -63,7 +62,6 @@ export function AnalyzeVideoPage({
 
       setAnalyzedVideo(submitData.video || submitData);
 
-      // Then trigger analysis
       const analyzeRes = await fetch(`/api/videos/${videoId}/analyze`, {
         method: 'POST',
       });
@@ -111,16 +109,16 @@ export function AnalyzeVideoPage({
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-brand-dark mb-1">
+    <div className="p-6">
+      <h1 className="text-product-name text-brand-dark mb-1">
         Analyze Video
       </h1>
-      <p className="text-sm text-brand-body mb-6">
+      <p className="text-bubble-desc text-brand-body mb-6">
         Submit a video URL for AI-powered manipulation pattern analysis.
       </p>
 
       {/* URL submission form */}
-      <div className="bg-white rounded-card p-5 mb-6">
+      <div className="warm-card p-5 mb-6">
         <form
           onSubmit={handleSubmitAndAnalyze}
           className="flex items-center gap-3"
@@ -134,18 +132,18 @@ export function AnalyzeVideoPage({
               setUrl(e.target.value);
               setError('');
             }}
-            className="flex-1 px-4 py-3 rounded-lg border border-cream-300 bg-cream-50 text-sm focus:outline-none focus:ring-2 focus:ring-accent-gold"
+            className="flex-1 px-4 py-3 rounded-bubble bg-cream-100/60 border border-white/50 text-sm text-brand-dark placeholder:text-brand-muted focus:outline-none focus:ring-2 focus:ring-category-attention/30"
           />
           <button
             type="submit"
             disabled={loading || !url.trim()}
-            className="px-6 py-3 bg-brand-dark text-cream-100 rounded-lg text-sm font-bold hover:bg-[#2a2a2a] transition-colors disabled:opacity-50"
+            className="px-6 py-3 bg-brand-dark text-white rounded-pill text-sm font-semibold hover:bg-brand-body transition-colors disabled:opacity-50"
           >
             {loading ? 'Analyzing...' : 'Analyze'}
           </button>
         </form>
         {error && (
-          <p className="text-xs text-status-warning mt-2 ml-8">{error}</p>
+          <p className="text-video-meta text-category-emotional mt-2 ml-8">{error}</p>
         )}
       </div>
 
@@ -160,12 +158,12 @@ export function AnalyzeVideoPage({
 
       {/* Loading state */}
       {loading && (
-        <div className="bg-white rounded-card p-8 text-center mb-6">
-          <i className="fas fa-spinner fa-spin text-accent-gold text-2xl mb-3" />
-          <p className="text-sm text-brand-body">
+        <div className="warm-card p-8 text-center mb-6">
+          <i className="fas fa-spinner fa-spin text-category-attention text-2xl mb-3" />
+          <p className="text-bubble-desc text-brand-body">
             Analyzing video for manipulation patterns...
           </p>
-          <p className="text-xs text-brand-muted mt-1">
+          <p className="text-video-meta text-brand-muted mt-1">
             This may take a few seconds.
           </p>
         </div>
@@ -174,16 +172,16 @@ export function AnalyzeVideoPage({
       {/* Pending videos queue */}
       {pendingVideos.length > 0 && (
         <div className="mt-8">
-          <h2 className="text-lg font-bold text-brand-dark mb-4">
+          <h2 className="text-video-title text-brand-dark mb-4">
             Pending Analysis
           </h2>
           <div className="flex flex-col gap-3">
             {pendingVideos.map((video) => (
               <div
                 key={video.id}
-                className="bg-white rounded-card p-4 flex items-center gap-4 border border-brand-border"
+                className="warm-card p-4 flex items-center gap-4"
               >
-                <div className="w-20 h-14 rounded bg-cream-100 overflow-hidden shrink-0">
+                <div className="w-20 h-14 rounded-bubble bg-cream-100 overflow-hidden shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={video.thumbnailUrl}
@@ -192,10 +190,10 @@ export function AnalyzeVideoPage({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-brand-dark truncate">
+                  <p className="text-sm font-semibold text-brand-dark truncate">
                     {video.title}
                   </p>
-                  <p className="text-xs text-brand-muted">
+                  <p className="text-video-meta text-brand-muted">
                     Submitted{' '}
                     {new Date(video.createdAt).toLocaleDateString()}
                   </p>
@@ -203,7 +201,7 @@ export function AnalyzeVideoPage({
                 <button
                   onClick={() => handleAnalyzePending(video)}
                   disabled={analyzingId === video.id}
-                  className="px-4 py-2 bg-accent-gold text-white rounded-lg text-xs font-bold hover:bg-accent-gold/90 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-category-attention text-white rounded-pill text-video-meta font-semibold hover:bg-category-attention/90 transition-colors disabled:opacity-50"
                 >
                   {analyzingId === video.id ? 'Analyzing...' : 'Analyze Now'}
                 </button>

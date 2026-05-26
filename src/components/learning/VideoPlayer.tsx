@@ -9,8 +9,8 @@ interface VideoPlayerProps {
 
 export function VideoPlayer({ youtubeId }: VideoPlayerProps) {
   return (
-    <div className="relative w-full rounded-xl overflow-hidden bg-black">
-      {/* YouTube embed */}
+    <div className="video-player relative w-full">
+      {/* YouTube embed with 16:9 aspect ratio */}
       <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
         <iframe
           src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1`}
